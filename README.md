@@ -1,5 +1,26 @@
 # Add-on actions for todo.sh
 
+### My current approach to todo.txt:
+
+All todo items follow this format:
+  
+```
+(PRIORITY) [PRIORITY-VALUE] Text @context +project
+```
+
+An example todo.txt is:
+
+```
+(A) [1.40] Feed the dragon +personal
+(B) [2.00] Attend weekly meeting @work
+(B) [1.00] Take out trash
+```
+
+Most of these add-on actions enforce that.
+
+
+### Add-on actions:
+
 ```
 add PRIORITY ADDITIONAL-PRIORITY "THING I NEED TO DO"
   Add an item, enforcing a pattern
