@@ -28,3 +28,8 @@ w
   Show only +work items
   Example: todo.sh w
 ```
+
+See also:
+  - http://todotxt.org/
+  - https://github.com/todotxt/todo.txt-cli/wiki
+  - https://github.com/todotxt/todo.txt-cli/wiki/Creating-and-Installing-Add-ons
