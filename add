@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ usage_message="    $(basename $0) PRIORITY ADDITIONAL-PRIORITY \"THING I NEED TO DO\"\n"
+usage_message+="      Add an item, enforcing a pattern\n"
+usage_message+="      Example: $TODO_SH $(basename $0) A 2.50 This is a new item"
+
+source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+
+prio="$1"
+shift
+additional_prio=$(get_additional_prio_with_defaults "$1")
+shift
+
+arguments_to_add="($prio) [$additional_prio] $@"
+
+assert_matches_pattern_show_usage "$arguments_to_add" "^\([A-Z]\) \[[0-9]\.[0-9][0-9]\] " "Item should have priorities at the beginning. Like '(A) [1.20] Some text'. It is: ${arguments_to_add}"
+
+"$TODO_FULL_SH" command add "$arguments_to_add"

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+ usage_message="    $(basename $0) ITEM#\n"
+usage_message+="      Edit an item in \$EDITOR"
+
+source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+
+[ "$#" -ne 1 ] && usage "Need 1 argument"
+
+line="$1"
+assert_matches_pattern_show_usage "$line" "^[0-9]+$" "ITEM# should be a number. It is: $line"
+
+trap 'rm -f "$tmpfile"' EXIT QUIT
+tmpfile=$(mktemp)
+
+sed -n "${line}p" "${TODO_FILE}" >"${tmpfile}"
+${EDITOR:-vi} "$tmpfile"
+
+changed_value="$(cat "$tmpfile")"
+
+does_pattern_match "$changed_value" "^\([A-Z]\) \[[0-9]\.[0-9][0-9]\] " || die_with "Changed line should have priorities at the beginning. Like '(A) [1.20] Some text'. It is: ${changed_value}"
+
+sed -i "${line}c${changed_value}" "${TODO_FILE}"

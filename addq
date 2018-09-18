@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ usage_message="    $(basename $0) \"THING I NEED TO DO\"\n"
+usage_message+="      Add an item quickly, defaulting priority to '(A) [1.00]'\n"
+usage_message+="      Example: $TODO_SH $(basename $0) This is a new item"
+
+source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+
+"$TODO_FULL_SH" add A 1 "$@"

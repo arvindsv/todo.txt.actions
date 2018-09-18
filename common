@@ -1,0 +1,36 @@
+#!/bin/bash
+
+action=$1
+shift
+
+function usage() {
+  [ "$#" -ge 1 ] && echo "ERROR: $@" >&2
+  echo -e "\n${usage_message}"
+
+  exit 1
+}
+
+function assert_matches_pattern_show_usage() {
+  does_pattern_match "$1" "$2" || usage "$3"
+}
+
+function does_pattern_match() {
+  local value="$1"
+  local pattern="$2"
+
+  echo -n "$value" | grep -Eq "$pattern"
+}
+
+function die_with() {
+  echo "$@" >&2
+  exit 1
+}
+
+function get_additional_prio_with_defaults() {
+  local value="$1"
+  if [ "${#value}" -eq 1 ]; then echo "${value}.00" && return; fi
+  if [ "${#value}" -eq 3 ]; then echo "${value}0" && return; fi
+  echo "${value}"
+}
+
+[ "$action" = "usage" ] && usage
