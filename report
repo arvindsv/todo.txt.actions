@@ -1,0 +1,19 @@
+#!/bin/bash
+
+ usage_message="    $(basename $0) [TERM]...\n"
+usage_message+="      Show a report, based on the setup in ~/.todo/report_setup.txt with additional TERM(s) if specified"
+usage_message+="      Example: $TODO_SH $(basename $0) report"
+
+source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+
+while read line; do
+  name=${line%:*}
+  filter=${line#*: }
+  matched_items=$(eval "$TODO_FULL_SH" ls "$filter" "$@" | tac | tail -n +3 | tac)
+
+  if [ -n "$matched_items" ]; then
+    heading="${name} [$(echo "$matched_items" | wc -l) items]"
+    separator=$(printf '=%.0s' $(seq 1 ${#heading}))
+    echo -e "${heading}\n${separator}\n${matched_items}\n"
+  fi
+done <"$TODO_DIR/report_setup.txt"
