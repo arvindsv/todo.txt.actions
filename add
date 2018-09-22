@@ -6,6 +6,8 @@ usage_message+="      Example: $TODO_SH $(basename $0) A 2.50 This is a new item
 
 source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
 
+[ "$#" -lt 3 ] && usage "Need at least 3 arguments"
+
 prio="$1"
 shift
 additional_prio=$(get_additional_prio_with_defaults "$1")

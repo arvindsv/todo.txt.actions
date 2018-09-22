@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ usage_message="    $(basename $0) \"THING I NEED TO DO\"\n"
+usage_message+="      Add an item to +work @followup due:+3_weekdays, defaulting priority to '(Y) [2.00]'\n"
+usage_message+="      Example on 23rd Sep: $TODO_SH $(basename $0) Follow up on issue 123"
+usage_message+="                   Output: (Y) [2.00] Follow up: with:someone on issue 123 +work @followup due:2018-09-26"
+
+source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+[ "$#" -lt 1 ] && usage "Need at least 1 argument"
+
+declare -A follow_up_days=([Sun]='wednesday' [Mon]='thursday' [Tue]='friday' [Wed]='monday' [Thu]='tuesday' [Fri]='tuesday' [Sat]='tuesday')
+
+"$TODO_FULL_SH" add Y 2 "Follow up:" "$@" "+work @followup" "due:$(gdate -d "next ${follow_up_days[$(date +%a)]}" +%Y-%m-%d)"

@@ -5,5 +5,6 @@ usage_message+="      Add a package to track (+personal @package) quickly, defau
 usage_message+="      Example: $TODO_SH $(basename $0) Backpack from Amazon"
 
 source $(dirname $(readlink -nf "$BASH_SOURCE"))/common
+[ "$#" -lt 1 ] && usage "Need at least 1 argument"
 
 "$TODO_FULL_SH" addq "$@" +personal @package
